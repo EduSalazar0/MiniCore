@@ -1,0 +1,99 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+}
+
+.App {
+    text-align: center;
+}
+
+.App-header {
+    background-color: #2c3e50;
+    padding: 20px;
+    color: white;
+    margin-bottom: 2rem;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Estilos del Formulario */
+.vendedor-form {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.vendedor-form h3 {
+    margin-top: 0;
+}
+
+.vendedor-form input {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.vendedor-form button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.vendedor-form button:hover {
+    background-color: #2980b9;
+}
+
+/* Estilos de la Tabla */
+.vendedor-list table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vendedor-list th, .vendedor-list td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.vendedor-list th {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+.vendedor-list tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+.vendedor-list tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.pago-si {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.pago-no {
+    color: #c0392b;
+    font-weight: bold;
+}

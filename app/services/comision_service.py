@@ -1,21 +1,23 @@
-# app/services/comision_service.py
-from typing import Dict, Any
+from typing import Dict
 
-def calcular_comision(total_facturado: float, total_cobrado: float, porcentaje_comision: float) -> Dict[str, Any]:
+def calcular_comision_por_ventas(total_ventas: float) -> Dict[str, float]:
     """
-    Calcula la comisión y determina si se debe pagar.
-    Regla de negocio: La comisión se paga solo si el total cobrado
-    es igual o mayor al total facturado.
+    Calcula el porcentaje y el monto de la comisión basado en un total de ventas.
     """
-    pago_realizado = False
-    comision_calculada = 0.0
+    porcentaje = 0.0
 
-    if total_cobrado >= total_facturado:
-        pago_realizado = True
-        # La comisión se calcula sobre el monto cobrado
-        comision_calculada = total_cobrado * (porcentaje_comision / 100)
-    
+    if total_ventas >= 1000:
+        porcentaje = 1.15
+    elif total_ventas >= 800:
+        porcentaje = 0.10
+    elif total_ventas >= 600:
+        porcentaje = 0.08
+    elif total_ventas >= 400:
+        porcentaje = 0.06
+
+    monto_comision = total_ventas * (porcentaje / 100)
+
     return {
-        "pago_realizado": pago_realizado,
-        "comision_calculada": round(comision_calculada, 2) # Redondeamos a 2 decimales
+        "porcentaje_comision": porcentaje,
+        "monto_comision": round(monto_comision, 2)
     }

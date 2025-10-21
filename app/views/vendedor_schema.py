@@ -1,18 +1,14 @@
 from pydantic import BaseModel
+from datetime import date
 
-class VendedorBase(BaseModel):
-    nombre: str
-    total_facturado: float
-    total_cobrado: float
+# Schema para la petición que recibiremos del frontend
+class CalculadoraRequest(BaseModel):
+    vendedor_nombre: str
+    fecha_inicio: date
+    fecha_fin: date
+
+# Schema para la respuesta que enviaremos al frontend
+class CalculadoraResponse(BaseModel):
+    total_ventas: float
     porcentaje_comision: float
-
-class VendedorCreate(VendedorBase):
-    pass
-
-class Vendedor(VendedorBase):
-    id: int
-    comision_calculada: float
-    pago_realizado: bool
-
-    class Config:
-        from_attributes = True
+    monto_comision: float
