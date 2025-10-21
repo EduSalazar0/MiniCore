@@ -97,3 +97,41 @@ main {
     color: #c0392b;
     font-weight: bold;
 }
+.resultado-card {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.resultado-item, .resultado-item-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.resultado-item-total {
+    font-size: 1.4rem;
+    border-bottom: none;
+    padding-top: 1.5rem;
+    color: #27ae60;
+}
+
+.error-message {
+    color: #c0392b;
+    background-color: #fdd;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.vendedor-form select {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+}
