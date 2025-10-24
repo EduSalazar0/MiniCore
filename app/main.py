@@ -1,17 +1,66 @@
+# app/main.py
 from fastapi import FastAPI
-from .database import engine
-from .models import vendedor_model # Mantenemos esto para que cree las tablas
-from .controllers import calculadora_controller # <--- CAMBIO
 from fastapi.middleware.cors import CORSMiddleware
+from .database import engine, SessionLocal
+from .models import vendedor_model
+from .controllers import calculadora_controller
 
-# Crea las tablas Vendedor y Venta
+# Imports para el script de seeding
+from .models.vendedor_model import Vendedor, Venta
+from datetime import date, timedelta
+import random
+
+# Crea las tablas Vendedor y Venta en la base de datos si no existen
 vendedor_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-origins = ["https://minicore-api-xgnc.onrender.com",
-           "https://minicore-h30e.onrender.com",
-           "http://localhost:3000"]
+# --- Evento de Arranque para Poblar la Base de Datos ---
+@app.on_event("startup")
+def on_startup():
+    db = SessionLocal()
+    # Revisa si la tabla de Vendedores ya tiene datos
+    vendedor_existente = db.query(Vendedor).first()
+    if not vendedor_existente:
+        print("Base de datos vacía. Poblando con datos de ejemplo...")
+
+        # 1. Crear Vendedores
+        vendedores_nombres = ["Ana", "Juan", "Maria", "Pedro"]
+        vendedores = []
+        for nombre in vendedores_nombres:
+            vendedor = Vendedor(nombre=nombre)
+            vendedores.append(vendedor)
+            db.add(vendedor)
+
+        db.commit()
+        for v in vendedores:
+            db.refresh(v)
+
+        # 2. Crear Ventas de Ejemplo
+        hoy = date.today()
+        for _ in range(200):
+            vendedor_aleatorio = random.choice(vendedores)
+            fecha_aleatoria = hoy - timedelta(days=random.randint(0, 90))
+            monto_aleatorio = round(random.uniform(50.0, 300.0), 2)
+            nueva_venta = Venta(
+                monto=monto_aleatorio,
+                fecha=fecha_aleatoria,
+                vendedor_id=vendedor_aleatorio.id
+            )
+            db.add(nueva_venta)
+
+        db.commit()
+        print("¡Datos de ejemplo creados exitosamente!")
+    else:
+        print("La base de datos ya contiene datos. Omitiendo el poblado.")
+
+    db.close()
+
+origins = [
+    "https://minicore-api-xgnc.onrender.com",
+    "https://minicore-h30e.onrender.com",
+    "http://localhost:3000"
+]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -20,8 +69,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Incluye las nuevas rutas de la calculadora
-app.include_router(calculadora_controller.router) # <--- CAMBIO
+app.include_router(calculadora_controller.router)
 
 @app.get("/")
 def read_root():
