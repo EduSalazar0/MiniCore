@@ -10,21 +10,21 @@ from .models.vendedor_model import Vendedor, Venta
 from datetime import date, timedelta
 import random
 
-# Crea las tablas Vendedor y Venta en la base de datos si no existen
-vendedor_model.Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
 
-# --- Evento de Arranque para Poblar la Base de Datos ---
+# --- Evento de Arranque para Crear Tablas y Poblar la Base de Datos ---
 @app.on_event("startup")
 def on_startup():
+    # 1. Mueve la creación de tablas aquí dentro
+    vendedor_model.Base.metadata.create_all(bind=engine)
+
     db = SessionLocal()
-    # Revisa si la tabla de Vendedores ya tiene datos
+    # 2. Revisa si la tabla de Vendedores ya tiene datos
     vendedor_existente = db.query(Vendedor).first()
     if not vendedor_existente:
         print("Base de datos vacía. Poblando con datos de ejemplo...")
 
-        # 1. Crear Vendedores
+        # Crear Vendedores
         vendedores_nombres = ["Ana", "Juan", "Maria", "Pedro"]
         vendedores = []
         for nombre in vendedores_nombres:
@@ -36,7 +36,7 @@ def on_startup():
         for v in vendedores:
             db.refresh(v)
 
-        # 2. Crear Ventas de Ejemplo
+        # Crear Ventas de Ejemplo
         hoy = date.today()
         for _ in range(200):
             vendedor_aleatorio = random.choice(vendedores)
@@ -55,9 +55,10 @@ def on_startup():
         print("La base de datos ya contiene datos. Omitiendo el poblado.")
 
     db.close()
+# --------------------------------------------------------------------
 
 origins = [
-    "https://minicore-api-xgnc.onrender.com",
+   "https://minicore-api-xgnc.onrender.com",
     "https://minicore-h30e.onrender.com",
     "http://localhost:3000"
 ]
