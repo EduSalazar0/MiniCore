@@ -1,4 +1,4 @@
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = 'https://minicore-h30e.onrender.com';
 
 export const calcularComision = async (calculadoraData) => {
     const response = await fetch(`${API_URL}/calculadora/`, {

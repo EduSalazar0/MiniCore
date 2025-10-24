@@ -9,7 +9,9 @@ vendedor_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-origins = ["http://localhost:3000"]
+origins = ["https://minicore-api-xgnc.onrender.com",
+           "https://minicore-h30e.onrender.com",
+           "http://localhost:3000"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
